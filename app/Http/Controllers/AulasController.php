@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Aula;
+use App\Curso;
 use Illuminate\Http\Request;
 use vendor\Yajra\Datatables\Facades\Datatables;
 
@@ -29,13 +30,15 @@ class AulasController extends Controller
         return view('cadastros.aulas.index');
     }
 
-    public function obteraulas() {
-        return \Datatables::of(Aula::orderByDesc('id'))->make(true);
+    public function obteraulas()
+    {
+        return \Datatables::of(Aula::with('curso')->orderByDesc('id'))->make(true);
     }
 
     public function create()
     {
-        return view ('cadastros.aulas.adicionarAulas');
+        $data = Curso::all();
+        return view ('cadastros.aulas.adicionarAulas', ['data' => $data]);
     }
 
     public function store(Request $request) {
@@ -43,6 +46,8 @@ class AulasController extends Controller
         $nome = $request->nome;
         $descricao = $request->descricao;
         $disponivel = $request->disponivel;
+        $curso_id = $request->curso_id;
+
 
         DB::beginTransaction();
 
@@ -51,7 +56,9 @@ class AulasController extends Controller
             $aula->nome = $nome;
             $aula->descricao = $descricao;
             $aula->disponivel = $disponivel;
+            $aula->curso_id = $curso_id;
             $aula->save();
+
             DB::commit();
             return response()->json(['sucesso' => true, 'mensagem' => 'Registro salvo com sucesso']);
         } catch (\Exception $ex){
@@ -63,7 +70,8 @@ class AulasController extends Controller
     public function edit($id) {
 
         $model = Aula::findOrFail($id);
-        return view ('cadastros.aulas.editarAulas', compact('model'));
+        $data = Curso::all();
+        return view ('cadastros.aulas.editarAulas', compact('model'),['dataa' => $data]);
     }
 
 
@@ -79,6 +87,8 @@ class AulasController extends Controller
         $nome = $request->nome;
         $descricao = $request->descricao;
         $disponivel = $request->disponivel;
+        $curso_id = $request->curso_id;
+
 
         DB::beginTransaction();
 
@@ -87,10 +97,14 @@ class AulasController extends Controller
             $aula->nome = $nome;
             $aula->descricao = $descricao;
             $aula->disponivel = $disponivel;
+            $aula->curso_id = $curso_id;
+
             $aula->save();
+
             DB::commit();
             return response()->json(['sucesso' => true, 'mensagem' => 'Registro salvo com sucesso']);
         } catch (\Exception $ex){
+
             DB::rollBack();
             return response()->json(['sucesso' => false, 'mensagem' => 'Registro não pode ser salvo']);
         }
@@ -104,10 +118,9 @@ class AulasController extends Controller
      */
     public function show($id)
     {
-        $model= Aula::findOrFail($id);
-        return view ('cadastros.aulas.editarAulas', compact('model'));
+        $model = Aula::findOrFail($id);
+        return view('cadastros.aulas.editarAulas', compact('model'));
     }
-
     public function destroy($id)
     {
         DB::beginTransaction();

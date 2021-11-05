@@ -22,11 +22,23 @@
 
                         <div class='form-group col-lg-5 col-md-4'>
                             <label class="control-label">Liberar Quando?</label>
-                                <div class='input-group' id='d_data'>
-                                    <input type='text' class="form-control" id="data" name="disponivel" data-toggle="tooltip" data-placement="bottom" title="" value="{{ $model->disponivel->format('d/m/Y') }}">
+                                <div class='input-group date' id='d_data'>
+                                    <input type="date" class="form-control" id="data" name="disponivel" data-toggle="tooltip" data-placement="bottom" title=""  value="{{ $model->disponivel->format('Y-m-d') }}">
                                     <span class="input-group-addon col-lg-1"></span>
+                                    <span class="glyphicon glyphicon-calendar"></span>
                                 </div>
                         </div>
+
+                             <div class="form-group col-lg-8">
+                                 <strong style="margin: 5px">Selecione o curso:</strong>
+                                 <select name="curso_id" id="curso_id" class="form-control custom-select">
+                                     <option>Selecione</option>
+                                     @foreach($dataa as $curso)
+                                         <option {{ $model->curso_id == $curso->id ? 'selected' : '' }} value="{{$curso->id}}">{{ $curso->nome }}</option>
+                                     @endforeach
+                                 </select>
+                             </div>
+
 
                         <div style="margin-top: 10px">
                             <div class="col-xs-8 col-sm-8 col-md-5">
@@ -43,8 +55,8 @@
 
 @push('scripts')
 <script type="text/javascript">
-  $(function() {
 
+  $(function() {
 
     $("#btnSalvar").on("click", function(params) {
         var nome = $("input[name='nome']").val();
@@ -65,10 +77,18 @@
             return;
         }
 
+        var curso_id = $("input[name='curso_id']").val();
+        if(curso_id == "") {
+            swal("Preencha a qual curso essa aula pertence");
+            return;
+        }
+
+
         $(this).text("Salvando...");
         $(this).attr('disabled', 'disabled');
 
         var url = '/aulas/' + "{{$model->id}}";
+
 
         $.ajax({
             type:'PUT',

@@ -17,9 +17,10 @@ class CreateAulasTable extends Migration
             $table->increments('id');
             $table->string('nome');
             $table->text('descricao');
-            $table->text('disponivel')->format('Y/m/d');
+            $table->text('disponivel');
             $table->unsignedInteger('curso_id')->nullable();
-            
+
+
             $table->foreign('curso_id')
              ->references('id')
              ->on('cursos');

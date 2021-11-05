@@ -14,6 +14,7 @@
                                     <th>Código</th>
                                     <th>Nome</th>
                                     <th>Descrição</th>
+                                    <th>Curso</th>
                                     <th>Liberado Quando?</th>
                                     <th>Ações</th>
                                 </tr>
@@ -75,6 +76,12 @@
                 {data: 'id', name: 'id'},
                 {data: 'nome', name: 'nome'},
                 {data: 'descricao', name: 'descricao'},
+                {data: 'curso_id', name: 'curso_id', render: function (data, type, full, meta) {
+                if (data==null){
+                    return "Sem Curso"
+                }
+                    return full.curso.nome;
+                }},
                 {data: 'disponivel', name: 'disponivel', render: function name(data) {
                     if(data == null) {
                         return "Inicial"

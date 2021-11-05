@@ -31,6 +31,7 @@
                             <img id="preview" src="{{url('storage/')}}/{{$model->image}}"  width-max="100%" height="80">
                         </div>
 
+
                         <div style="margin-top: 10px">
                                 <div class="col-xs-8 col-sm-8 col-md-5">
                                 <button id="btnSalvar" class="btn btn-success"><i class="fa fa-save"></i> Salvar</button>  
@@ -39,6 +40,19 @@
 
                   </div>
                </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center" style="margin-top: 10px">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Listagem de aulas</div>
+                <div class="card-body">
+                    @foreach($aulas as $aula)
+                        <p>{{$aula->nome}}</p>
+                    @endforeach
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Curso;
+use App\Aula;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -84,10 +85,18 @@ class CursosController extends Controller
         }
     }
 
-    public function edit($id) {
+    public function edit(Curso $curso) {
 
-        $model = Curso::findOrFail($id);
-        return view ('cadastros.cursos.editarCursos', compact('model'));
+        $model = Curso::findOrFail($curso->id);
+
+        if($curso){
+            echo "<h1>Curso:</h1>";
+            echo "Nome do Curso: {$curso->nome}";
+       }
+
+        $aulas = $curso->aulas;
+
+        return view ('cadastros.cursos.editarCursos', compact('model', 'aulas'));
     }
 
 

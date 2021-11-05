@@ -134,6 +134,10 @@ return [
     |
     */
 
+    'date_format' => 'd/m/Y',
+    'date_format_js' => 'dd/mm/yy',
+
+
     'providers' => [
 
         /*

@@ -63,7 +63,7 @@
             var dtRenderAcoes = function(full) {
                 var acoes = '<center>';
                 acoes += '<a class="btn btn-sm btn-primary mx-1" style="margin-top: 20px; display: flow-root;"  href="/curso/'+ full.id + '" title="Página do Curso" type="button">Página do Curso</a>';
-                acoes += '<button class="btn btn-sm btn-danger" title="Excluir" style="visibility: hidden" type="button"><i class="fa fa-trash-o"></i></button>';
+                acoes += '<button class="btn btn-sm btn-danger" title="Excluir" style="display: none" type="button"><i class="fa fa-trash-o"></i></button>';
                 acoes += '</center>';
                 return acoes;
             }

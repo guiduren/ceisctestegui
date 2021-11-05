@@ -25,5 +25,5 @@ Route::resource('/aulas', 'AulasController');
 Route::get('/cursos/obter', 'CursosController@obterCursos')->name('cursos.obter');
 Route::resource('/cursos', 'CursosController');
 
-
 ?>
+

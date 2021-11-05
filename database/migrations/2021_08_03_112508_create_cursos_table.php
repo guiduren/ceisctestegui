@@ -20,7 +20,6 @@ class CreateCursosTable extends Migration
             $table->string('image')->nullable();// Por que a imagem está como 'text"? Pois está passando somente o endereço da imagem e não a imagem em si.
             $table->enum('ativo', ['A' , 'I']);
 
-
             $table->timestamps();
         });
     }
