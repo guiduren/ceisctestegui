@@ -63,6 +63,7 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('cursos.index')}}">Cursos</a>
                             <a class="dropdown-item" href="{{ route('aulas.index') }}">Aulas</a>
+                            <a class="dropdown-item" href="{{ route('categorias.index') }}">Categorias</a>
                             </div>
                         </li>
                         @endauth

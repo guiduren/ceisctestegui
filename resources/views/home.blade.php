@@ -31,6 +31,11 @@
                             <a href="{{ route('cursos.index') }}" class="btn btn-danger"><span class="badge">{{ $quantidadeCursos }}</span></a>
                             <strong>Cursos</strong>
                         </li>
+
+                        <li class="list-group-item">
+                            <a href="{{ route('categorias.index') }}" class="btn btn-dark"><span class="badge">0</span></a>
+                            <strong>Categorias</strong>
+                        </li>
                     </ul>
                 </div>
             </div>
