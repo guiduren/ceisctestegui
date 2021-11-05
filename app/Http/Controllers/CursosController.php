@@ -94,6 +94,7 @@ class CursosController extends Controller
             echo "Nome do Curso: {$curso->nome}";
        }
 
+        // aulas
         $aulas = $curso->aulas;
 
         return view ('cadastros.cursos.editarCursos', compact('model', 'aulas'));
