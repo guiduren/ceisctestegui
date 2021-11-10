@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Curso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 
 class CursoController extends Controller
 {

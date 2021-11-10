@@ -43,13 +43,24 @@
         </div>
     </div>
 
+        <input type="hidden" id="curso_id" name="curso_id" value="{{ $model->id }}">
+
     <div class="row justify-content-center" style="margin-top: 10px">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Listagem de aulas</div>
+                <div class="card-header">Adicionar Aulas
+                    <select name="aula_id" id="aula_id" class="form-control custom-select">
+                        <option>Selecione</option>
+                        @foreach($aulasSemCurso as $aulaSemCurso)
+                            <option value="{{ $aulaSemCurso->id }}">{{ $aulaSemCurso->nome }}</option>
+                        @endforeach
+                    </select>
+                    <button id="btnSalvarAula" style="margin-top: 5px" class="btn btn-success"><i class="fa fa-save"></i> Adicionar Aula</button>  
+                </div>
+                <div class="card-header">Aulas deste Curso:</div>
                 <div class="card-body">
                     @foreach($aulas as $aula)
-                        <p>{{$aula->nome}}</p>
+                        <p>{{$aula->nome}}<button class="btn btn-sm btn-danger" id="deletebtn" style="alignment: right" onclick="excluirConfirmar('+ full.id +')" title="Excluir" type="button"><i class="fa fa-trash-o"></i></button></p><hr>
                     @endforeach
                 </div>
             </div>
@@ -76,7 +87,24 @@
           }
       });
 
+    $("#btnSalvarAula").on("click", function(params) {
+        let aula_id = $("select[name='aula_id']").val();
 
+
+     let url = "{{route('cursos.update.aulas')}}";
+         var parametros = {
+          curso_id: $("#curso_id").val(),
+          aula_id: aula_id
+      }
+      $.get(url, parametros, function(data) {
+
+              if(data.sucesso) {
+                  window.location.reload();
+              } else {
+                  swal("Erro", data.mensagem, "error");
+              }
+      });
+    });
     $("#btnSalvar").on("click", function(params) {
         var nome = $("input[name='nome']").val();
         if(nome == "") {
@@ -84,12 +112,14 @@
             return;
         }
 
+
         var descricao = $("[name='descricao']").val();
         if(descricao == "") {
             swal("Preencha a descrição do curso");
             return;
         }
 
+        var aula_id = $("select[name='aula_id']").val();
         $(this).text("Salvando...");
         $(this).attr('disabled', 'disabled');
 
@@ -110,7 +140,7 @@
         formData.append("ativo", ativo);
         formData.append("image", $('#image')[0].files[0]);
         formData.append("_method", 'PUT');
-
+        formData.append("aula_id", aula_id);
 
         $.ajax({
             type: 'POST',
@@ -129,8 +159,9 @@
                     swal("Erro", data.mensagem, "error");
                 }
             }
+
         });
     });
-  });
+  })
 </script>
 @endpush

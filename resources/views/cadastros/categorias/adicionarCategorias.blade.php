@@ -44,7 +44,7 @@
         $(this).text("Salvando...");
         $(this).attr('disabled', 'disabled');
 
-        var url = '{{route("categorias.index")}}';
+        var url = '{{route("categorias.store")}}';
 
 
         $.ajax({

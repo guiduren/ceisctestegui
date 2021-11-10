@@ -62,6 +62,7 @@ class AulasController extends Controller
             DB::commit();
             return response()->json(['sucesso' => true, 'mensagem' => 'Registro salvo com sucesso']);
         } catch (\Exception $ex){
+            
             DB::rollBack();
             return response()->json(['sucesso' => false, 'mensagem' => 'Registro não pode ser salvo']);
         }
@@ -71,6 +72,7 @@ class AulasController extends Controller
 
         $model = Aula::findOrFail($id);
         $data = Curso::all();
+
         return view ('cadastros.aulas.editarAulas', compact('model'),['dataa' => $data]);
     }
 
@@ -104,7 +106,6 @@ class AulasController extends Controller
             DB::commit();
             return response()->json(['sucesso' => true, 'mensagem' => 'Registro salvo com sucesso']);
         } catch (\Exception $ex){
-
             DB::rollBack();
             return response()->json(['sucesso' => false, 'mensagem' => 'Registro não pode ser salvo']);
         }

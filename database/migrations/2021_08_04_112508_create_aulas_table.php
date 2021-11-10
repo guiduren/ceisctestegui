@@ -25,6 +25,7 @@ class CreateAulasTable extends Migration
              ->references('id')
              ->on('cursos');
 
+
             $table->timestamps();
         });
     }

@@ -18,6 +18,7 @@
                                 <tr>
                                     <th>Imagem do Curso</th>
                                     <th>Código</th>
+                                    <th>Categoria</th>
                                     <th>Nome</th>
                                     <th>Descrição</th>
                                     <th>Ativo</th>
@@ -80,17 +81,22 @@
             serverSide: true,
             ajax: url,
             columns: [
-                 {data: 'image', name:'image',
-                render : function ( url, type, data) {
+                {data: 'image', name:'image',
+                render : function (url, type, data) {
                 return '<img src="{{url('storage')}}/'+ data.image +'" "width-max="100%" height="80" />';
           }},
+                {data: 'categoria_id', name: 'categoria_id', render: function (data, type, full, meta) {
+                        if (data==null){
+                            return "Sem Categoria"
+                        }
+                        return full.categoria.nome;
+                    }},
                 {data: 'id', name: 'id'},
                 {data: 'nome', name: 'nome'},
                 {data: 'descricao', name: 'descricao'},
                 {data: 'ativo', name: 'ativo', render: function name(data){
                     return data;
                 }},
-
                 {data: 'id', name: 'id', render: function (data, type, full, meta) {
                     return dtRenderAcoes(full);
                 }},

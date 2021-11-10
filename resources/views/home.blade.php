@@ -33,7 +33,7 @@
                         </li>
 
                         <li class="list-group-item">
-                            <a href="{{ route('categorias.index') }}" class="btn btn-dark"><span class="badge">0</span></a>
+                            <a href="{{ route('categorias.index') }}" class="btn btn-dark"><span class="badge">{{ $quantidadeCategorias }}</span></a>
                             <strong>Categorias</strong>
                         </li>
                     </ul>

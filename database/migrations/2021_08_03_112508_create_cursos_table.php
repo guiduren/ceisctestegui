@@ -14,10 +14,14 @@ class CreateCursosTable extends Migration
     public function up()
     {
         Schema::create('cursos', function (Blueprint $table) {
+            $table->string('image')->nullable();// Por que a imagem está como 'text"? Pois está passando somente o endereço da imagem e não a imagem em si.
             $table->increments('id');
+            $table->unsignedInteger('categoria_id');
+            $table->foreign('categoria_id')
+                ->references('id')
+                ->on('categorias');
             $table->string('nome');
             $table->text('descricao');
-            $table->string('image')->nullable();// Por que a imagem está como 'text"? Pois está passando somente o endereço da imagem e não a imagem em si.
             $table->enum('ativo', ['A' , 'I']);
 
             $table->timestamps();

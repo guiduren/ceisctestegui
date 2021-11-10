@@ -3,45 +3,38 @@
 namespace App\Http\Controllers;
 
 
+use App\Categoria;
 use App\Curso;
 use App\Aula;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
+
+
 class CursosController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
 
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index(Request $request)
     {
         $mensagem = $request->session()->get('mensagem');
         return view('cadastros.cursos.index', compact('mensagem'));
-
     }
 
     public function obtercursos()
     {
-        return \Datatables::of(Curso::orderByDesc('id'))->make(true);
+        return \Datatables::of(Curso::with('categoria')->orderByDesc('id'))->make(true);
     }
 
     public function create()
     {
-        return view ('cadastros.cursos.adicionarCursos');
+        $data = Categoria::all();
+        return view ('cadastros.cursos.adicionarCursos',['data'=> $data]);
     }
 
     public function store(Request $request) {
@@ -50,7 +43,7 @@ class CursosController extends Controller
         $descricao = $request->descricao;
         $ativo = $request->ativo;
         $image = $request->image;
-
+        $categoria_id = $request->categoria_id;
 
         DB::beginTransaction();
 
@@ -66,7 +59,7 @@ class CursosController extends Controller
              $curso->image = $file;
              $data['image'] = $image;
          }
-
+         $curso->categoria_id = $categoria_id;
          $curso->save();
 
 
@@ -80,7 +73,7 @@ class CursosController extends Controller
           return response()->json(['sucesso' => true, 'mensagem' => 'Registro salvo com sucesso']);
         } catch (\Exception $ex){
             DB::rollBack();
-
+            
             return response()->json(['sucesso' => false, 'mensagem' => 'Registro não pode ser salvo']);
         }
     }
@@ -88,16 +81,32 @@ class CursosController extends Controller
     public function edit(Curso $curso) {
 
         $model = Curso::findOrFail($curso->id);
-
-        if($curso){
-            echo "<h1>Curso:</h1>";
-            echo "Nome do Curso: {$curso->nome}";
-       }
-
-        // aulas
         $aulas = $curso->aulas;
+        $aulasSemCurso = Aula::whereNull('curso_id')->get();
 
-        return view ('cadastros.cursos.editarCursos', compact('model', 'aulas'));
+        return view ('cadastros.cursos.editarCursos', compact('model', 'aulas','aulasSemCurso'));
+    }
+
+    public function updateAddAula(Request $request)
+    {
+        $curso_id = $request->curso_id;
+        $aula_id = $request->aula_id;
+
+        DB::beginTransaction();
+
+        try {
+            $aula = Aula::findOrFail($aula_id);
+            $aula->curso_id = $curso_id;
+            $aula->save();
+
+            DB::commit();
+            return response()->json(['sucesso' => true, 'mensagem' => 'Registro salvo com sucesso']);
+        } catch (\Exception $ex){
+            dd($ex);
+            DB::rollBack();
+            return response()->json(['sucesso' => false, 'mensagem' => 'Registro não pode ser salvo']);
+        }
+
     }
 
 

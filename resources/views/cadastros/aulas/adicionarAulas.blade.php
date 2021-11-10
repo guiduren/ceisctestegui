@@ -29,10 +29,10 @@
 
                              <div class="form-group col-lg-8">
                                  <strong style="margin: 5px">Selecione o curso:</strong>
-                                 <select name="curso_id" id="curso_id" class="form-control custom-select">
-                                     <option>Selecione</option>
+                                 <select name="curso_id" id="curso_id" class="form-control custom-select" >
+                                     <option value="">Selecione</option>
                                      @foreach($data as $curso)
-                                         <option value="{{$curso->id}}">{{ $curso->nome }}</option>
+                                        <option value="{{$curso->id}}">{{ $curso->nome }}</option>
                                      @endforeach
                                  </select>
                              </div>
@@ -53,7 +53,6 @@
 @push('scripts')
 <script type="text/javascript">
   $(function() {
-
 
     $("#btnSalvar").on("click", function(params) {
         var nome = $("input[name='nome']").val();
@@ -85,11 +84,11 @@
 
         var url = '{{route("aulas.store")}}';
 
-
         $.ajax({
             type:'POST',
             url: url,
             data: $("#formCadastro").serialize(),
+
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             success:function(data){
                 if(data.sucesso) {
@@ -99,7 +98,7 @@
                 }
             }
         });
-    });
+    })
   });
 </script>
 @endpush
