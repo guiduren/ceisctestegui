@@ -15,6 +15,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/aulas/deleteaula', 'CursosController@deleteaula')->name('cursos.deletar.aula');
 
 Route::get('/usuarios/obter', 'UsuariosController@obterUsuarios')->name('usuarios.obter');
 Route::resource('/usuarios', 'UsuariosController');
@@ -22,13 +23,19 @@ Route::resource('/usuarios', 'UsuariosController');
 Route::get('/aulas/obter', 'AulasController@obterAulas')->name('aulas.obter');
 Route::resource('/aulas', 'AulasController');
 
+
 Route::get('/cursos/obter', 'CursosController@obterCursos')->name('cursos.obter');
 Route::get('/cursos/updateaddaula', 'CursosController@updateAddAula')->name('cursos.update.aulas');
+
 Route::resource('/cursos', 'CursosController');
 
 
 Route::get('/categorias/obter', 'CategoriasController@obterCategorias')->name('categorias.obter');
 Route::resource('/categorias', 'CategoriasController');
+
+
+Route::get('/disciplinas/obter', 'DisciplinasController@obterDisciplinas')->name('disciplinas.obter');
+Route::resource('/disciplinas', 'DisciplinasController');
 
 ?>
 

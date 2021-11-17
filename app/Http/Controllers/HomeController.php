@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Categoria;
 use App\Curso;
+use App\Disciplina;
 use App\User;
 use App\Aula;
 use vendor\Illuminate\Http\Request;
@@ -31,10 +32,11 @@ class HomeController extends Controller
          $quantidadeAulas = Aula::count();
          $quantidadeCursos = Curso::count();
          $quantidadeCategorias = Categoria::count();
+         $quantidadeDisciplinas = Disciplina::count();
 
 
         /* Compact - Serve para passarmos variáveis (informações) para a nossa view (home') */;
-        return view('home', compact('quantidadeUsuarios', 'quantidadeAulas','quantidadeCursos','quantidadeCategorias'));
+        return view('home', compact('quantidadeUsuarios', 'quantidadeAulas','quantidadeCursos','quantidadeCategorias','quantidadeDisciplinas'));
 
     }
 }

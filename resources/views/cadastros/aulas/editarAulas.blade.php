@@ -32,7 +32,7 @@
                              <div class="form-group col-lg-8">
                                  <strong style="margin: 5px">Selecione o curso:</strong>
                                  <select name="curso_id" id="curso_id" class="form-control custom-select">
-                                     <option value="">Selecione</option>
+                                     <option id="aulaoption" value="">Selecione</option>
                                      @foreach($dataa as $curso)
                                          <option {{ $model->curso_id == $curso->id ? 'selected' : '' }} value="{{$curso->id}}">{{ $curso->nome }}</option>
                                      @endforeach

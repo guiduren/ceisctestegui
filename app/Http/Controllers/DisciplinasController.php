@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use App\Aula;
-use App\Curso;
-use App\Categoria;
+
+use App\Disciplina;
 use Illuminate\Http\Request;
-use vendor\Yajra\Datatables\Facades\Datatables;
+use Illuminate\Support\Facades\DB;
 
-
-
-class CategoriasController extends Controller
+class DisciplinasController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -20,15 +17,13 @@ class CategoriasController extends Controller
 
     public function index()
     {
-        return view('cadastros.categorias.index');
+        return view('cadastros.disciplinas.index');
     }
-
 
     public function create()
     {
-        return view ('cadastros.categorias.adicionarCategorias');
+        return view('cadastros.disciplinas.adicionarDisciplinas');
     }
-
 
     public function store(Request $request)
     {
@@ -37,36 +32,34 @@ class CategoriasController extends Controller
         DB::beginTransaction();
 
         try {
-            $categoria = new Categoria;
-            $categoria->nome = $nome;
-            $categoria->save();
+            $disciplina = new Disciplina();
+            $disciplina->nome = $nome;
+            $disciplina->save();
 
             DB::commit();
             return response()->json(['sucesso' => true, 'mensagem' => 'Registro salvo com sucesso']);
-        } catch (\Exception $ex){
+        } catch (\Exception $ex) {
             DB::rollBack();
             return response()->json(['sucesso' => false, 'mensagem' => 'Registro não pode ser salvo']);
         }
     }
 
-
-    public function obtercategorias()
+    public function obterdisciplinas()
     {
-        return \Datatables::of(Categoria::orderByDesc('id'))->make(true);
+        return \Datatables::of(Disciplina::orderByDesc('id'))->make(true);
     }
 
     public function show($id)
     {
-        $model = Categoria::findOrFail($id);
-        return view('cadastros.categorias.editarCategorias', compact('model'));
+        $model = Disciplina::findOrFail($id);
+        return view('cadastros.disciplinas.editarDisciplinas', compact('model'));
     }
 
     public function edit($id)
     {
-        $model = Categoria::findOrFail($id);
-        return view('cadastros.categorias.editarCategorias', compact('model'));
+        $model = Disciplina::findOrFail($id);
+        return view('cadastros.disciplinas.editarDisciplinas', compact('model'));
     }
-
 
     public function update(Request $request, $id)
     {
@@ -75,28 +68,27 @@ class CategoriasController extends Controller
         DB::beginTransaction();
 
         try {
-            $categoria = Categoria::findOrFail($id);
-            $categoria->nome = $nome;
-            $categoria->save();
+            $disciplina = Disciplina::findOrFail($id);
+            $disciplina->nome = $nome;
+            $disciplina->save();
 
             DB::commit();
             return response()->json(['sucesso' => true, 'mensagem' => 'Registro salvo com sucesso']);
-        } catch (\Exception $ex){
+        } catch (\Exception $ex) {
             DB::rollBack();
             return response()->json(['sucesso' => false, 'mensagem' => 'Registro não pode ser salvo']);
         }
     }
-
 
     public function destroy($id)
     {
         DB::beginTransaction();
 
         try {
-            Categoria::findOrFail($id)->delete();
+            Disciplina::findOrFail($id)->delete();
             DB::commit();
             return response()->json(['sucesso' => true, 'mensagem' => 'Registro deletado com sucesso']);
-        } catch (\Exception $ex){
+        } catch (\Exception $ex) {
             DB::rollback();
             return response()->json(['sucesso' => false, 'mensagem' => 'Registro não pode ser deletado']);
 

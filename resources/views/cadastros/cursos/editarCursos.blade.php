@@ -48,6 +48,15 @@
     <div class="row justify-content-center" style="margin-top: 10px">
         <div class="col-md-8">
             <div class="card">
+                <div class="form-group col-lg-8">
+                    <strong style="margin: 5px">Selecione a(s) Disciplina(s) do Curso:</strong>
+                    <select name="disciplina_id" id="disciplina_id" class="form-control custom-select" multiple>
+                        @foreach($disciplinas as $disciplina)
+                            <option value="{{$disciplina->id}}">{{ $disciplina->nome }}</option>
+                        @endforeach
+                    </select>
+                    <button id="btnSalvarDisciplina" style="margin-top: 5px" class="btn btn-success"><i class="fa fa-save"></i> Adicionar Disciplina</button>  
+                </div>
                 <div class="card-header">Adicionar Aulas
                     <select name="aula_id" id="aula_id" class="form-control custom-select">
                         <option>Selecione</option>
@@ -58,9 +67,12 @@
                     <button id="btnSalvarAula" style="margin-top: 5px" class="btn btn-success"><i class="fa fa-save"></i> Adicionar Aula</button>  
                 </div>
                 <div class="card-header">Aulas deste Curso:</div>
+
                 <div class="card-body">
                     @foreach($aulas as $aula)
-                        <p>{{$aula->nome}}<button class="btn btn-sm btn-danger" id="deletebtn" style="alignment: right" onclick="excluirConfirmar('+ full.id +')" title="Excluir" type="button"><i class="fa fa-trash-o"></i></button></p><hr>
+                        <div class="class">
+                            <p>{{$aula->nome}} <button class="btn btn-sm btn-danger btndeletar" attr-id="{{ $aula->id }}"><i class="fa fa-trash-o"></i></button><hr>
+                        </div>
                     @endforeach
                 </div>
             </div>
@@ -71,97 +83,121 @@
 
 @push('scripts')
 <script type="text/javascript">
-  $(function() {
 
-      $('#image').on('change', function (e){
+    $(function () {
 
-          var fileInput=this;
-          if (fileInput.files[0])
-          {
-              var reader = new FileReader();
-              reader.onload=function(e)
-              {
-                  $('#preview').attr('src',e.target.result);
-              }
-              reader.readAsDataURL(fileInput.files[0]);
-          }
-      });
+        $(".btndeletar").on("click", function () {
 
-    $("#btnSalvarAula").on("click", function(params) {
-        let aula_id = $("select[name='aula_id']").val();
+            let url = "{{route('cursos.deletar.aula')}}";
 
+            let that = $(this);
+            let id = that.attr('attr-id');
+            console.log(id);
 
-     let url = "{{route('cursos.update.aulas')}}";
-         var parametros = {
-          curso_id: $("#curso_id").val(),
-          aula_id: aula_id
-      }
-      $.get(url, parametros, function(data) {
+            var parametros = {
+                id: id
+            }
+            $.get(url, parametros, function (data) {
 
-              if(data.sucesso) {
-                  window.location.reload();
-              } else {
-                  swal("Erro", data.mensagem, "error");
-              }
-      });
-    });
-    $("#btnSalvar").on("click", function(params) {
-        var nome = $("input[name='nome']").val();
-        if(nome == "") {
-            swal("Preencha o nome");
-            return;
-        }
-
-
-        var descricao = $("[name='descricao']").val();
-        if(descricao == "") {
-            swal("Preencha a descrição do curso");
-            return;
-        }
-
-        var aula_id = $("select[name='aula_id']").val();
-        $(this).text("Salvando...");
-        $(this).attr('disabled', 'disabled');
-
-        var url = '{{route("cursos.update", $model->id)}}';
-        let ativo = $('#ativo').is(':checked');
-
-
-        if (ativo == true) {
-            ativo = 'A';
-        }else{
-            ativo = 'I';
-        }
-
-
-        var formData = new FormData();
-        formData.append("nome", nome);
-        formData.append("descricao", descricao);
-        formData.append("ativo", ativo);
-        formData.append("image", $('#image')[0].files[0]);
-        formData.append("_method", 'PUT');
-        formData.append("aula_id", aula_id);
-
-        $.ajax({
-            type: 'POST',
-            url: url,
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-
-            success:function(data){
-                if(data.sucesso) {
-                    window.location.href = '{{route("cursos.index")}}';
+                if (data.sucesso) {
+                    window.location.reload();
                 } else {
                     swal("Erro", data.mensagem, "error");
                 }
-            }
+            });
 
         });
-    });
-  })
+
+        $('#image').on('change', function (e) {
+
+            var fileInput = this;
+            if (fileInput.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#preview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        });
+
+        $("#btnSalvarAula").on("click", function (params) {
+            let aula_id = $("select[name='aula_id']").val();
+
+
+            let url = "{{route('cursos.update.aulas')}}";
+            var parametros = {
+                curso_id: $("#curso_id").val(),
+                aula_id: aula_id
+            }
+            $.get(url, parametros, function (data) {
+
+                if (data.sucesso) {
+                    window.location.reload();
+                } else {
+                    swal("Erro", data.mensagem, "error");
+                }
+            });
+            });
+
+            $("#btnSalvar").on("click", function (params) {
+                var nome = $("input[name='nome']").val();
+                if (nome == "") {
+                    swal("Preencha o nome");
+                    return;
+                }
+
+
+                var descricao = $("[name='descricao']").val();
+                if (descricao == "") {
+                    swal("Preencha a descrição do curso");
+                    return;
+                }
+
+                var aula_id = $("select[name='aula_id']").val();
+                $(this).text("Salvando...");
+                $(this).attr('disabled', 'disabled');
+
+                var url = '{{route("cursos.update", $model->id)}}';
+                let ativo = $('#ativo').is(':checked');
+
+
+                if (ativo == true) {
+                    ativo = 'A';
+                } else {
+                    ativo = 'I';
+                }
+
+
+                var formData = new FormData();
+                formData.append("nome", nome);
+                formData.append("descricao", descricao);
+                formData.append("ativo", ativo);
+                formData.append("image", $('#image')[0].files[0]);
+                formData.append("_method", 'PUT');
+                formData.append("aula_id", aula_id);
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+
+                    success: function (data) {
+                        if (data.sucesso) {
+                            window.location.href = '{{route("cursos.index")}}';
+                        } else {
+                            swal("Erro", data.mensagem, "error");
+                        }
+                    }
+
+                });
+            });
+        });
+
+
 </script>
 @endpush

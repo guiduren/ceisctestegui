@@ -11,6 +11,6 @@ class CursosTableSeeder extends Seeder
      */
     public function run()
     {
-     
+
     }
 }

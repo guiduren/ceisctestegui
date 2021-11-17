@@ -45,7 +45,7 @@
         })
         .then((willDelete) => {
         if (willDelete) {
-            let token = '{{ csrf_token() }}';
+
             let url = '{{url("/cursos/")}}/' + id;
 
             $.ajax({

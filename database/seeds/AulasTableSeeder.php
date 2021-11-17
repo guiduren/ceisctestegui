@@ -21,11 +21,13 @@ class AulasTableSeeder extends Seeder
             'created_at' => now(),
         ]);
 
-       DB::table('aulas')->insert([
-           'nome' => "Portugues",
-           'descricao' => "Descrição do curso de Portugues",
-           'disponivel' => now(),
-           'created_at' => now(),
+        DB::table('aulas')->insert([
+            'nome' => "Portugues",
+            'descricao' => "Descrição do curso de Portugues",
+            'disponivel' => now(),
+            'created_at' => now(),
         ]);
+
+
     }
 }

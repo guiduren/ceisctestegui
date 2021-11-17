@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Categoria;
 use App\Curso;
 use App\Aula;
+use App\Disciplina;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
-
-
 
 class CursosController extends Controller
 {
@@ -34,7 +31,8 @@ class CursosController extends Controller
     public function create()
     {
         $data = Categoria::all();
-        return view ('cadastros.cursos.adicionarCursos',['data'=> $data]);
+        $disciplinas = Disciplina::all();
+        return view ('cadastros.cursos.adicionarCursos',['data'=> $data, 'disciplinas' => $disciplinas]);
     }
 
     public function store(Request $request) {
@@ -73,18 +71,19 @@ class CursosController extends Controller
           return response()->json(['sucesso' => true, 'mensagem' => 'Registro salvo com sucesso']);
         } catch (\Exception $ex){
             DB::rollBack();
-            
+
             return response()->json(['sucesso' => false, 'mensagem' => 'Registro não pode ser salvo']);
         }
     }
 
     public function edit(Curso $curso) {
 
+        $disciplinas = Disciplina::all();
         $model = Curso::findOrFail($curso->id);
         $aulas = $curso->aulas;
         $aulasSemCurso = Aula::whereNull('curso_id')->get();
 
-        return view ('cadastros.cursos.editarCursos', compact('model', 'aulas','aulasSemCurso'));
+        return view ('cadastros.cursos.editarCursos', compact('model', 'aulas','aulasSemCurso','disciplinas'));
     }
 
     public function updateAddAula(Request $request)
@@ -101,14 +100,11 @@ class CursosController extends Controller
 
             DB::commit();
             return response()->json(['sucesso' => true, 'mensagem' => 'Registro salvo com sucesso']);
-        } catch (\Exception $ex){
-            dd($ex);
+        } catch (\Exception $ex) {
             DB::rollBack();
             return response()->json(['sucesso' => false, 'mensagem' => 'Registro não pode ser salvo']);
         }
-
     }
-
 
     /**
      * Update the given user.
@@ -172,12 +168,30 @@ class CursosController extends Controller
             return response()->json(['sucesso' => true, 'mensagem' => 'Registro deletado com sucesso']);
 
         } catch (\Exception $ex){
-            dd($ex);
             DB::rollback();
             return response()->json(['sucesso' => false, 'mensagem' => 'Registro não pode ser deletado']);
 
         }
     }
 
+    public function deleteaula(Request $request)
+    {
+
+        $id = $request->id;
+
+        DB::beginTransaction();
+
+        try {
+            $aula= Aula::findOrFail($id);
+            $aula->curso_id = null;
+            $aula->save();
+            DB::commit();
+
+            return response()->json(['sucesso' => true, 'mensagem' => 'Registro deletado com sucesso']);
+
+        } catch (\Exception $ex){
+            DB::rollback();
+            return response()->json(['sucesso' => false, 'mensagem' => 'Registro não pode ser deletado']);
+    }}
 
 }
