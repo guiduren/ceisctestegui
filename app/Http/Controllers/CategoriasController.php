@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use DB;
-use App\Aula;
-use App\Curso;
 use App\Categoria;
 use Illuminate\Http\Request;
 use vendor\Yajra\Datatables\Facades\Datatables;

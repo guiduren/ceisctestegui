@@ -50,7 +50,7 @@
             <div class="card">
                 <div class="form-group col-lg-8">
                     <strong style="margin: 5px">Selecione a(s) Disciplina(s) do Curso:</strong>
-                    <select name="disciplina_id" id="disciplina_id" class="form-control custom-select" multiple>
+                    <select name="disciplina_id[]" id="disciplina_id" class="form-control custom-select" multiple>
                         @foreach($disciplinas as $disciplina)
                             <option value="{{$disciplina->id}}">{{ $disciplina->nome }}</option>
                         @endforeach

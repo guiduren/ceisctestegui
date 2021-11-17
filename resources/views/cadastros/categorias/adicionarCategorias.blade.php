@@ -14,7 +14,6 @@
                                      {!!Form::text('nome', '', array('class' => 'form-control', 'placeholder' => 'Digite o nome da Categoria'));!!}
                             </div>
 
-
                              <div style="margin-top: 10px">
                                  <div class="col-xs-8 col-sm-8 col-md-5">
                                  <button id="btnSalvar" class="btn btn-success"><i class="fa fa-save"></i> Salvar</button>  
@@ -32,7 +31,6 @@
 <script type="text/javascript">
   $(function() {
 
-
     $("#btnSalvar").on("click", function(params) {
         var nome = $("input[name='nome']").val();
         if(nome == "") {
@@ -40,12 +38,10 @@
             return;
         }
 
-
         $(this).text("Salvando...");
         $(this).attr('disabled', 'disabled');
 
         var url = '{{route("categorias.store")}}';
-
 
         $.ajax({
             type:'POST',

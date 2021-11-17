@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Curso;
 use App\Disciplina;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +17,9 @@ class DisciplinasController extends Controller
 
     public function index()
     {
-        return view('cadastros.disciplinas.index');
+        $data = Curso::join('disciplina','disciplina.curso_id', '=','curso.curso_id')
+            ->get(['curso.curso_nome', 'disciplina.disciplina_nome']);
+        return view('cadastros.disciplinas.index',compact('data'));
     }
 
     public function create()

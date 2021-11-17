@@ -9,6 +9,8 @@ class Disciplina extends Model
     protected $fillable = [
         'nome'
     ];
+
+
 }
 
 

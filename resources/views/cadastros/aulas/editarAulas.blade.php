@@ -39,7 +39,6 @@
                                  </select>
                              </div>
 
-
                         <div style="margin-top: 10px">
                             <div class="col-xs-8 col-sm-8 col-md-5">
                             <button id="btnSalvar" class="btn btn-success"><i class="fa fa-save"></i> Salvar</button>  
